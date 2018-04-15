@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.imiaomi.admin.api.mapper.ImiaoMaoMapper">
+  <resultMap id="BaseResultMap" type="cn.imiaomi.admin.api.pojo.ImiaoMao">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="pin_id" jdbcType="CHAR" property="pinId" />
+    <result column="random_dir" jdbcType="CHAR" property="randomDir" />
+    <result column="pic_url" jdbcType="VARCHAR" property="picUrl" />
+    <result column="source" jdbcType="CHAR" property="source" />
+    <result column="source_link" jdbcType="VARCHAR" property="sourceLink" />
+    <result column="like_count" jdbcType="INTEGER" property="likeCount" />
+    <result column="comment_count" jdbcType="INTEGER" property="commentCount" />
+    <result column="repin_count" jdbcType="INTEGER" property="repinCount" />
+    <result column="state" jdbcType="INTEGER" property="state" />
+  </resultMap>
+</mapper>
