@@ -5,32 +5,35 @@ import javax.persistence.*;
 @Table(name = "imiao_mao")
 public class ImiaoMao {
     @Id
-    private Integer id = 0;
+    private Integer id;
 
     @Column(name = "pin_id")
-    private String pinId = "";
+    private String pinId;
 
     @Column(name = "random_dir")
-    private String randomDir = "";
+    private String randomDir;
 
     @Column(name = "pic_url")
-    private String picUrl = "";
+    private String picUrl;
 
-    private String source = "";
+    private String source;
 
     @Column(name = "source_link")
-    private String sourceLink = "";
+    private String sourceLink;
 
     @Column(name = "like_count")
-    private Integer likeCount = 0;
+    private Integer likeCount;
 
     @Column(name = "comment_count")
-    private Integer commentCount = 0;
+    private Integer commentCount;
 
     @Column(name = "repin_count")
-    private Integer repinCount = 0;
+    private Integer repinCount;
 
-    private Integer state = 0;
+    /**
+     * 0：默认，未审核通过，1：正常显示，2：禁止显示，下架
+     */
+    private Integer state;
 
     /**
      * @return id
@@ -159,14 +162,18 @@ public class ImiaoMao {
     }
 
     /**
-     * @return state
+     * 获取0：默认，未审核通过，1：正常显示，2：禁止显示，下架
+     *
+     * @return state - 0：默认，未审核通过，1：正常显示，2：禁止显示，下架
      */
     public Integer getState() {
         return state;
     }
 
     /**
-     * @param state
+     * 设置0：默认，未审核通过，1：正常显示，2：禁止显示，下架
+     *
+     * @param state 0：默认，未审核通过，1：正常显示，2：禁止显示，下架
      */
     public void setState(Integer state) {
         this.state = state;

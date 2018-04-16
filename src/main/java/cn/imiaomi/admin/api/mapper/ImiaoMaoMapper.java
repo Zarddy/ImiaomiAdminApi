@@ -2,14 +2,12 @@ package cn.imiaomi.admin.api.mapper;
 
 import cn.imiaomi.admin.api.pojo.ImiaoMao;
 import cn.imiaomi.admin.api.util.ImiaoMapper;
-import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
 import java.util.List;
 
-@Mapper
 public interface ImiaoMaoMapper extends ImiaoMapper<ImiaoMao> {
 
     String TABLE_NAME = "`imiao_db`.`imiao_mao`";
