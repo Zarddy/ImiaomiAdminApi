@@ -29,5 +29,6 @@
                              type="XMLMAPPER"/>
 
         <table tableName="imiao_mao"></table>
+        <table tableName="auth_user"></table>
     </context>
 </generatorConfiguration>
