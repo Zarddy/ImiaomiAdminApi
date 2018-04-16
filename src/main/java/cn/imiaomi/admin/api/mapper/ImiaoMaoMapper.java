@@ -2,16 +2,18 @@ package cn.imiaomi.admin.api.mapper;
 
 import cn.imiaomi.admin.api.pojo.ImiaoMao;
 import cn.imiaomi.admin.api.util.ImiaoMapper;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
 import java.util.List;
 
+@Mapper
 public interface ImiaoMaoMapper extends ImiaoMapper<ImiaoMao> {
 
     String TABLE_NAME = "`imiao_db`.`imiao_mao`";
-    String MAO_FIELDS = "id, pin_id, random_dir, pic_url, source_link";
+    String MAO_FIELDS = "*";
 
     /**
      * 获取不同状态的图片列表

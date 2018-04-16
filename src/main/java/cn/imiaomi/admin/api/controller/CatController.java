@@ -16,7 +16,6 @@ public class CatController {
 
     @Autowired
     private ImiaoResource imiaoResource;
-
     @Autowired
     private ImiaoServiceImpl imiaoService;
 

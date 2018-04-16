@@ -13,8 +13,7 @@ public class ImiaoExceptionHandler {
     public Object errorHandler(HttpServletRequest request,
                                HttpServletResponse response,
                                Exception exception) throws Exception {
-//        exception.printStackTrace();
-
+        // TODO 出错处理
         return null;
     }
 }
