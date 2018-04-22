@@ -16,7 +16,13 @@ public class AuthUserServiceImpl implements AuthUserService {
 
     @Override
     @Transactional(propagation = Propagation.SUPPORTS)
-    public AuthUser getUserByAccountPassword(String account, String password) {
-        return authUserMapper.queryUserByAccountPassword(account, password);
+    public AuthUser getUserByUsername(String username) {
+        return authUserMapper.queryUserByUsername(username);
+    }
+
+    @Override
+    @Transactional(propagation = Propagation.SUPPORTS)
+    public AuthUser getUserByAccountPassword(String username, String password) {
+        return authUserMapper.queryUserByAccountPassword(username, password);
     }
 }

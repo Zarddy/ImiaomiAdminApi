@@ -18,7 +18,7 @@ public interface ImiaoMaoMapper extends ImiaoMapper<ImiaoMao> {
      * @param state 状态
      * @return 图片列表
      */
-    @Select("SELECT " + MAO_FIELDS + " FROM " + TABLE_NAME + " WHERE state=#{state} ORDER BY id DESC")
+    @Select({"SELECT " + MAO_FIELDS + " FROM " + TABLE_NAME + " WHERE state=#{state} ORDER BY id DESC"})
     List<ImiaoMao> listCatsByState(@Param("state") int state);
 
     /**
@@ -26,7 +26,7 @@ public interface ImiaoMaoMapper extends ImiaoMapper<ImiaoMao> {
      * @param id 图片id
      * @return 图片详情
      */
-    @Select("SELECT " + MAO_FIELDS + " FROM " + TABLE_NAME + " WHERE id=#{id}")
+    @Select({"SELECT " + MAO_FIELDS + " FROM " + TABLE_NAME + " WHERE id=#{id}"})
     ImiaoMao getCatById(@Param("id") String id);
 
     /**
@@ -35,6 +35,6 @@ public interface ImiaoMaoMapper extends ImiaoMapper<ImiaoMao> {
      * @param state 状态
      * @return 修改成功的记录数
      */
-    @Update("UPDATE " + TABLE_NAME + " SET state=#{state} WHERE id IN ${ids}")
+    @Update({"UPDATE " + TABLE_NAME + " SET state=#{state} WHERE id IN ${ids}"})
     int updateStateByIds(@Param("ids") String ids, @Param("state") int state);
 }

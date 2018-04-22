@@ -4,5 +4,7 @@ import cn.imiaomi.admin.api.pojo.AuthUser;
 
 public interface AuthUserService {
 
-    AuthUser getUserByAccountPassword(String account, String password);
+    AuthUser getUserByUsername(String username);
+
+    AuthUser getUserByAccountPassword(String username, String password);
 }

@@ -1,7 +1,9 @@
 package cn.imiaomi.admin.api.controller;
 
 import cn.imiaomi.admin.api.pojo.ImiaoMao;
+import cn.imiaomi.admin.api.pojo.JsonResult;
 import cn.imiaomi.admin.api.service.impl.ImiaoServiceImpl;
+import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,23 +20,27 @@ public class CatController {
     private ImiaoServiceImpl imiaoService;
 
     @PostMapping(value = "/list")
-    List<ImiaoMao> listCats(
+    @RequiresAuthentication
+    JsonResult listCats(
             @RequestParam(defaultValue = "0") int state,
             @RequestParam(defaultValue = "0") int page) {
-        return imiaoService.listCatsByState(state, page);
+        return JsonResult.ok(imiaoService.listCatsByState(state, page));
     }
 
     @PostMapping(value = "/detail")
+    @RequiresAuthentication
     ImiaoMao getDetail(@RequestParam(defaultValue = "") String id) {
         return imiaoService.getCatById(id);
     }
 
     @PostMapping(value = "/delete")
+    @RequiresAuthentication
     int deleteCatByIds(@RequestParam(defaultValue = "") String ids) {
         return imiaoService.deleteCatByIds(ids);
     }
 
     @PostMapping(value = "/update")
+    @RequiresAuthentication
     int updateCatState(
             @RequestParam(defaultValue = "") String ids,
             @RequestParam(defaultValue = "0") int state) {
