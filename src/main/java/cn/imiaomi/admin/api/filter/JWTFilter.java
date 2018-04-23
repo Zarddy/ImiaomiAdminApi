@@ -25,9 +25,14 @@ public class JWTFilter extends BasicHttpAuthenticationFilter {
     protected boolean preHandle(ServletRequest request, ServletResponse response) throws Exception {
         HttpServletRequest httpServletRequest = (HttpServletRequest) request;
         HttpServletResponse httpServletResponse = (HttpServletResponse) response;
-        httpServletResponse.setHeader("Access-control-Allow-Origin", httpServletRequest.getHeader("Origin"));
+        //这里填写你允许进行跨域的主机ip
+        httpServletResponse.setHeader("Access-Control-Allow-Origin", "*");
+        //允许的访问方法
         httpServletResponse.setHeader("Access-control-Allow-Methods", "POST, GET");
-        httpServletResponse.setHeader("Access-control-Allow-Headers", httpServletRequest.getHeader("Access-Control_Request_Headers"));
+        //Access-Control-Max-Age 用于 CORS 相关配置的缓存
+        httpServletResponse.setHeader("Access-Control-Max-Age", "3600");
+        httpServletResponse.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+
         // 跨域时会首先发送一个option请求，这里给option请求字节返回正常状态
         if (httpServletRequest.getMethod().equals(RequestMethod.OPTIONS.name())) {
             httpServletResponse.setStatus(HttpStatus.OK.value());
