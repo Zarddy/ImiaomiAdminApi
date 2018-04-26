@@ -4,6 +4,7 @@ import javax.persistence.*;
 
 @Table(name = "imiao_mao")
 public class ImiaoMao {
+
     @Id
     private Integer id;
 

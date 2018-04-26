@@ -24,7 +24,7 @@ public class UserController {
             @RequestParam(defaultValue = "") String password) {
         AuthUser authUser = userService.getUserByAccountPassword(account, password);
         if (authUser == null) {
-            return JsonResult.errorException("登录失败");
+            return JsonResult.errorException("账号或密码有误");
 
         } else {
             return JsonResult.ok(new JWTToken(JWTUtils.sign(account, password)));
