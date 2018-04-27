@@ -2,6 +2,7 @@ package cn.imiaomi.admin.api.mapper;
 
 import cn.imiaomi.admin.api.pojo.ImiaoMao;
 import cn.imiaomi.admin.api.util.ImiaoMapper;
+import com.github.pagehelper.Page;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
@@ -19,7 +20,7 @@ public interface ImiaoMaoMapper extends ImiaoMapper<ImiaoMao> {
      * @return 图片列表
      */
     @Select({"SELECT " + MAO_FIELDS + " FROM " + TABLE_NAME + " WHERE state=#{state} ORDER BY id DESC"})
-    List<ImiaoMao> listCatsByState(@Param("state") int state);
+    Page<ImiaoMao> listCatsByState(@Param("state") int state);
 
     /**
      * 根据id获取图片详情

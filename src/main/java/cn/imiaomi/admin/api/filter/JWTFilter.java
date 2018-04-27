@@ -1,6 +1,7 @@
 package cn.imiaomi.admin.api.filter;
 
 import cn.imiaomi.admin.api.pojo.JWTToken;
+import cn.imiaomi.admin.api.util.HttpUtils;
 import com.alibaba.druid.util.StringUtils;
 import org.apache.shiro.web.filter.authc.BasicHttpAuthenticationFilter;
 import org.springframework.http.HttpStatus;
@@ -25,13 +26,7 @@ public class JWTFilter extends BasicHttpAuthenticationFilter {
     protected boolean preHandle(ServletRequest request, ServletResponse response) throws Exception {
         HttpServletRequest httpServletRequest = (HttpServletRequest) request;
         HttpServletResponse httpServletResponse = (HttpServletResponse) response;
-        //这里填写你允许进行跨域的主机ip
-        httpServletResponse.setHeader("Access-Control-Allow-Origin", "*");
-        //允许的访问方法
-        httpServletResponse.setHeader("Access-control-Allow-Methods", "POST, GET");
-        //Access-Control-Max-Age 用于 CORS 相关配置的缓存
-        httpServletResponse.setHeader("Access-Control-Max-Age", "3600");
-        httpServletResponse.setHeader("Access-Control-Allow-Headers", "Authorization, Origin, X-Requested-With, Content-Type, Accept");
+        HttpUtils.setupResponseHeader(httpServletResponse);
 
         // 跨域时会首先发送一个option请求，这里给option请求字节返回正常状态
         if (httpServletRequest.getMethod().equals(RequestMethod.OPTIONS.name())) {
@@ -69,7 +64,7 @@ public class JWTFilter extends BasicHttpAuthenticationFilter {
     @Override
     protected boolean isLoginAttempt(ServletRequest request, ServletResponse response) {
         HttpServletRequest httpServletRequest = (HttpServletRequest) request;
-        String authorization = httpServletRequest.getHeader("Authorization");
+        String authorization = httpServletRequest.getHeader(HttpUtils.HEADER_AUTHORIZATION);
         return !StringUtils.isEmpty(authorization);
     }
 
@@ -77,8 +72,8 @@ public class JWTFilter extends BasicHttpAuthenticationFilter {
     protected boolean executeLogin(ServletRequest request, ServletResponse response) throws Exception {
         HttpServletRequest httpServletRequest = (HttpServletRequest) request;
         HttpServletResponse httpServletResponse = (HttpServletResponse) response;
-        String authoriztion = httpServletRequest.getHeader("Authorization");
-        JWTToken jwtToken = new JWTToken(authoriztion);
+        String authorization = httpServletRequest.getHeader(HttpUtils.HEADER_AUTHORIZATION);
+        JWTToken jwtToken = new JWTToken(authorization);
         // 提交给realm进行登入，如果错误将会抛出异常并被捕获
         getSubject(request, response).login(jwtToken); // 提交给realm进行处理
         // 如果没有抛出异常则代表登入成功，返回true
@@ -87,6 +82,7 @@ public class JWTFilter extends BasicHttpAuthenticationFilter {
 
     private void response401(ServletRequest request, ServletResponse response) {
         try {
+            HttpServletRequest httpServletRequest = (HttpServletRequest) request;
             HttpServletResponse httpServletResponse = (HttpServletResponse) response;
             httpServletResponse.sendRedirect("/401");
         } catch (IOException exception) {

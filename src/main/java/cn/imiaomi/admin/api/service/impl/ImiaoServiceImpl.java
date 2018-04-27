@@ -4,6 +4,7 @@ import cn.imiaomi.admin.api.mapper.ImiaoMaoMapper;
 import cn.imiaomi.admin.api.pojo.ImiaoMao;
 import cn.imiaomi.admin.api.pojo.ImiaoResource;
 import cn.imiaomi.admin.api.service.ImiaoService;
+import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,8 +23,8 @@ public class ImiaoServiceImpl implements ImiaoService {
 
     @Override
     @Transactional(propagation = Propagation.SUPPORTS)
-    public List<ImiaoMao> listCatsByState(int state, int page) {
-        PageHelper.startPage(page, imiaoResource.getPageSize()); // 分页
+    public Page<ImiaoMao> listCatsByState(int state, int page, int pageSize) {
+        PageHelper.startPage(page, pageSize); // 分页
         return imiaoMaoMapper.listCatsByState(state);
     }
 
