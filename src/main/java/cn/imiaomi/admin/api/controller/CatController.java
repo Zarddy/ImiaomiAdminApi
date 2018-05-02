@@ -9,7 +9,7 @@ import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -39,10 +39,34 @@ public class CatController {
         return imiaoService.getCatById(id);
     }
 
+    /**
+     * TODO 删除单个图片记录
+     * @param imiaoMao
+     * @return
+     */
     @PostMapping(value = "/delete")
     @RequiresAuthentication
-    int deleteCatByIds(@RequestParam(defaultValue = "") String ids) {
-        return imiaoService.deleteCatByIds(ids);
+    JsonResult deleteCat(@RequestBody ImiaoMao imiaoMao) {
+        if (imiaoMao == null) {
+            return JsonResult.errorMsg("删除失败");
+        }
+
+        return JsonResult.ok();
+    }
+
+    /**
+     * TODO 删除多个图片记录
+     * @param list
+     * @return
+     */
+    @PostMapping(value = "/deleteList")
+    @RequiresAuthentication
+    JsonResult deleteCats(@RequestBody List<ImiaoMao> list) {
+        if (list == null) {
+            return JsonResult.errorMsg("删除失败");
+        }
+
+        return JsonResult.ok();
     }
 
     @PostMapping(value = "/update")
