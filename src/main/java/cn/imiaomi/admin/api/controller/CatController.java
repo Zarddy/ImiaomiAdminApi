@@ -1,8 +1,10 @@
 package cn.imiaomi.admin.api.controller;
 
+import cn.imiaomi.admin.api.http.HttpResult;
+import cn.imiaomi.admin.api.http.HttpStatusCode;
+import cn.imiaomi.admin.api.http.HttpUtils;
 import cn.imiaomi.admin.api.pojo.ImiaoMao;
 import cn.imiaomi.admin.api.pojo.ImiaoResource;
-import cn.imiaomi.admin.api.pojo.JsonResult;
 import cn.imiaomi.admin.api.service.impl.ImiaoServiceImpl;
 import com.github.pagehelper.Page;
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
@@ -17,20 +19,21 @@ import java.util.Map;
 public class CatController {
 
     @Autowired
-    ImiaoResource imiaoResource;
+    private ImiaoResource imiaoResource;
     @Autowired
     private ImiaoServiceImpl imiaoService;
 
     @PostMapping(value = "/list")
     @RequiresAuthentication
-    JsonResult listCats(@RequestBody Map<String, Integer> reqMap) {
+    HttpResult listCats(@RequestBody Map<String, Integer> reqMap) {
         int state = reqMap.getOrDefault("state", 1);
         int page = reqMap.getOrDefault("page", 1);
         int pageSize = reqMap.getOrDefault("pageSize", imiaoResource.getPageSize());
 
         Page<ImiaoMao> list = imiaoService.listCatsByState(state, page, pageSize);
-        JsonResult jsonResult = new JsonResult(200, "ok", list.getResult(), list.getTotal());
-        return jsonResult;
+
+        return HttpUtils.initResponseResult(null,
+                HttpStatusCode.OK, "ok", list.getTotal(), list.getResult());
     }
 
     @PostMapping(value = "/detail")
@@ -46,12 +49,11 @@ public class CatController {
      */
     @PostMapping(value = "/delete")
     @RequiresAuthentication
-    JsonResult deleteCat(@RequestBody ImiaoMao imiaoMao) {
+    HttpResult deleteCat(@RequestBody ImiaoMao imiaoMao) {
         if (imiaoMao == null) {
-            return JsonResult.errorMsg("删除失败");
+            return HttpUtils.initResponseResult(null, HttpStatusCode.ERROR, "删除失败");
         }
-
-        return JsonResult.ok();
+        return HttpUtils.initResponseResult(null, HttpStatusCode.OK, "删除成功");
     }
 
     /**
@@ -61,12 +63,11 @@ public class CatController {
      */
     @PostMapping(value = "/deleteList")
     @RequiresAuthentication
-    JsonResult deleteCats(@RequestBody List<ImiaoMao> list) {
+    HttpResult deleteCats(@RequestBody List<ImiaoMao> list) {
         if (list == null) {
-            return JsonResult.errorMsg("删除失败");
+            return HttpUtils.initResponseResult(null, HttpStatusCode.ERROR, "删除失败");
         }
-
-        return JsonResult.ok();
+        return HttpUtils.initResponseResult(null, HttpStatusCode.OK, "删除成功");
     }
 
     @PostMapping(value = "/update")

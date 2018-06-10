@@ -1,14 +1,16 @@
 package cn.imiaomi.admin.api.filter;
 
 import cn.imiaomi.admin.api.pojo.JWTToken;
-import cn.imiaomi.admin.api.util.HttpUtils;
+import cn.imiaomi.admin.api.http.HttpUtils;
 import com.alibaba.druid.util.StringUtils;
 import org.apache.shiro.web.filter.authc.BasicHttpAuthenticationFilter;
 import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
+import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -17,6 +19,8 @@ import java.io.IOException;
  * 所有请求都会先经过filter，重写鉴权的方法
  * 代码执行流程：preHandle->isAccessAllowed->isLoginAttempt->exeuteLogin
  */
+@Component
+@WebFilter
 public class JWTFilter extends BasicHttpAuthenticationFilter {
 
     /**

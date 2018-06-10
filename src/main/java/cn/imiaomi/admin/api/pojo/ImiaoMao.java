@@ -82,7 +82,7 @@ public class ImiaoMao {
      * @return pic_url
      */
     public String getPicUrl() {
-        return picUrl;
+        return "https://img1.soor.com.cn/" + randomDir + picUrl;
     }
 
     /**

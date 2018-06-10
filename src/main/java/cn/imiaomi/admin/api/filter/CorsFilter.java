@@ -1,6 +1,6 @@
 package cn.imiaomi.admin.api.filter;
 
-import cn.imiaomi.admin.api.util.HttpUtils;
+import cn.imiaomi.admin.api.http.HttpUtils;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.*;

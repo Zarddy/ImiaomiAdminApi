@@ -1,10 +1,10 @@
 package cn.imiaomi.admin.api.realm;
 
+import cn.imiaomi.admin.api.dto.AuthTokenDTO;
 import cn.imiaomi.admin.api.pojo.AuthUser;
 import cn.imiaomi.admin.api.pojo.JWTToken;
 import cn.imiaomi.admin.api.service.AuthUserService;
-import cn.imiaomi.admin.api.util.JWTUtils;
-import com.alibaba.druid.util.StringUtils;
+import cn.imiaomi.admin.api.util.AuthWebTokenUtil;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
@@ -43,12 +43,8 @@ public class ImiaoRealm extends AuthorizingRealm {
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
 
-        String username = JWTUtils.getUsername(principalCollection.toString());
-        AuthUser authUser = authUserService.getUserByUsername(username);
         SimpleAuthorizationInfo simpleAuthorizationInfo = new SimpleAuthorizationInfo();
         simpleAuthorizationInfo.addRole("role");
-//        Set<String> permissions = new HashSet<>(Arrays.asList());
-//        simpleAuthorizationInfo.addStringPermissions(permissions);
         return simpleAuthorizationInfo;
     }
 
@@ -61,22 +57,19 @@ public class ImiaoRealm extends AuthorizingRealm {
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
 
-        String token = (String) authenticationToken.getCredentials();
-        // 解密获得username，用于和数据库进行对比
-        String username = JWTUtils.getUsername(token);
-        if (StringUtils.isEmpty(username)) {
+        String token = String.valueOf(authenticationToken.getCredentials());
+        AuthWebTokenUtil util = new AuthWebTokenUtil();
+        AuthTokenDTO admin = util.parseAndValidate(token);
+
+        if (admin == null) {
             throw new AuthenticationException("token invalid");
         }
 
-        AuthUser authUser = authUserService.getUserByUsername(username);
+        AuthUser authUser = authUserService.getUserByUsername(admin.getUsername());
         if (authUser == null) {
-            throw new AuthenticationException("User didn't existed!");
+            throw new AuthenticationException("User didn't existed!"); // 用户不存在
         }
 
-        if (!JWTUtils.verify(token, username, authUser.getPassword())) {
-            throw new AuthenticationException("Username or password error");
-        }
-
-        return new SimpleAuthenticationInfo(token, token, "imiao_realm");
+        return new SimpleAuthenticationInfo(token, token, this.getClass().getSimpleName());
     }
 }

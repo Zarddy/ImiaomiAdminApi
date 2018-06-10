@@ -3,16 +3,23 @@ package cn.imiaomi.admin.api.pojo;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.*;
 
+@Entity
 @Table(name = "auth_user")
-public class AuthUser {
+public class AuthUser implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+
     @Id
     private Integer id;
 
     @JsonIgnore
     private String password;
+
+    private String salt;
 
     @JsonFormat(pattern="yyyy-MM-dd HH:mm", locale="zh", timezone="GMT+8")
     @Column(name = "last_login")
@@ -67,6 +74,14 @@ public class AuthUser {
      */
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getSalt() {
+        return salt;
+    }
+
+    public void setSalt(String salt) {
+        this.salt = salt;
     }
 
     /**
